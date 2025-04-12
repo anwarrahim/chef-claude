@@ -6,10 +6,15 @@ function Main(){
        return  <li key={ingredient}>{ingredient}</li>
       })
 
+      function handleSubmitItem(event){
+        event.preventDefault()
+      }
+
+
     return (
         <>
         <main className=" mt-6">
-            <form action="" className="flex justify-center gap-1.5">
+            <form onSubmit={handleSubmitItem} action="" className="flex justify-center gap-1.5">
                     <input 
                 className="max-w-lg min-w-xs grow border-2 border-gray-300 rounded-sm p-1.5"            type="text"
                 placeholder="e.g Mirchi.. "
