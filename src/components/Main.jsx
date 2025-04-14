@@ -1,14 +1,20 @@
+import React, {useState} from 'react'
+
 function Main(){
 
 
-      const ingredients = ['Gram msala', 'haldi', 'Ghee']
+      const [ingredients, setIngredients ]= useState(['Gram msala', 'haldi'])
       const ingredientsListItems = ingredients.map(ingredient =>{
        return  <li key={ingredient}>{ingredient}</li>
       })
 
       function submitIngredient(formData){
         const addNewIngredients = formData.get("ingredientName")
-        console.log(addNewIngredients)
+        setIngredients(prevIngredients =>{
+            return (
+                [addNewIngredients, ...prevIngredients]
+            )
+        })
       }
 
     
