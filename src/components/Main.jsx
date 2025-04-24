@@ -7,6 +7,7 @@ export default function Main() {
         ["all the main spices", "pasta", "ground beef", "tomato paste"]
     )
     const [recipeShown, setRecipeShown] = React.useState(false)
+    const [inputValue, setInputValue] = React.useState("")
 
     function toggleRecipeShown() {
         setRecipeShown(prevShown => !prevShown)
@@ -14,7 +15,14 @@ export default function Main() {
 
     function addIngredient(formData) {
         const newIngredient = formData.get("ingredient")
-        setIngredients(prevIngredients => [...prevIngredients, newIngredient])
+        if (newIngredient && newIngredient.trim() !== "") {
+            setIngredients(prevIngredients => [...prevIngredients, newIngredient])
+            setInputValue("") 
+        }
+    }
+
+    function handleInputChange(event) {
+        setInputValue(event.target.value)
     }
 
     return (
@@ -25,8 +33,10 @@ export default function Main() {
                     placeholder="e.g. oregano"
                     aria-label="Add ingredient"
                     name="ingredient"
+                    value={inputValue}
+                    onChange={handleInputChange}
                 />
-                <button>Add ingredient</button>
+                <button type="submit">Add ingredient</button>
             </form>
 
             {ingredients.length > 0 &&
