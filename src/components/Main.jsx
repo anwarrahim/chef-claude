@@ -1,48 +1,42 @@
-import React, {useState} from 'react'
+import React from "react"
+import IngredientsList from "./IngredientsList"
+import ClaudeRecipe from "./ClaudeRecipe"
 
-function Main(){
+export default function Main() {
+    const [ingredients, setIngredients] = React.useState(
+        ["all the main spices", "pasta", "ground beef", "tomato paste"]
+    )
+    const [recipeShown, setRecipeShown] = React.useState(false)
 
+    function toggleRecipeShown() {
+        setRecipeShown(prevShown => !prevShown)
+    }
 
-      const [ingredients, setIngredients ]= useState(['Gram msala', 'haldi'])
-      const ingredientsListItems = ingredients.map(ingredient =>{
-       return  <li key={ingredient}>{ingredient}</li>
-      })
+    function addIngredient(formData) {
+        const newIngredient = formData.get("ingredient")
+        setIngredients(prevIngredients => [...prevIngredients, newIngredient])
+    }
 
-      function submitIngredient(formData){
-        const addNewIngredients = formData.get("ingredientName")
-        setIngredients(prevIngredients =>{
-            return (
-                [addNewIngredients, ...prevIngredients]
-            )
-            
-        })
-      }
-
-    
-      
     return (
-        <>
-        <main className=" mt-6">
-            <form action={submitIngredient} className="flex justify-center gap-1.5">
-                    <input 
-            
-                className="max-w-lg min-w-xs grow border-2 border-gray-300 rounded-sm p-1.5"            
-                type="text"
-                placeholder="e.g Mirchi.. "
-                aria-label="add ingredients"
-                name="ingredientName"
-                
+        <main>
+            <form action={addIngredient} className="add-ingredient-form">
+                <input
+                    type="text"
+                    placeholder="e.g. oregano"
+                    aria-label="Add ingredient"
+                    name="ingredient"
                 />
-                <button className="bg-black text-white py-1.5 px-3 border rounded-sm flex  first-letter:text-xl before:content-['+'] before:mr-1  cursor-pointer">
-                    Add ingredients
-                </button>
+                <button>Add ingredient</button>
             </form>
-            <ul className="flex items-center flex-col">
-                {ingredientsListItems}
-            </ul>
-           
+
+            {ingredients.length > 0 &&
+                <IngredientsList
+                    ingredients={ingredients}
+                    toggleRecipeShown={toggleRecipeShown}
+                />
+            }
+
+            {recipeShown && <ClaudeRecipe />}
         </main>
-        </>
     )
 }
-export default Main
